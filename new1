@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Feuerwehr Einsatzleiter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 { color: darkred; }
+    .einsatz {
+      background: white;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px 0;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      background: darkred;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover { background: firebrick; }
+    #log {
+      margin-top: 20px;
+      background: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      height: 150px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚒 Feuerwehr Einsatzleiter</h1>
+  <p>Koordiniere die Einsätze und entscheide, welche Einheiten geschickt werden!</p>
+  
+  <div id="einsatzContainer"></div>
+  
+  <h2>Einsatz-Log</h2>
+  <div id="log"></div>
+  
+  <script>
+    const einsaetze = [
+      { id: 1, name: "Wohnungsbrand", einheiten: ["Löschfahrzeug", "Drehleiter", "Rettungswagen"] },
+      { id: 2, name: "Verkehrsunfall", einheiten: ["Rettungswagen", "Notarzt", "Hilfeleistungslöschfahrzeug"] },
+      { id: 3, name: "Katze im Baum", einheiten: ["Drehleiter", "Hilfeleistungslöschfahrzeug"] },
+      { id: 4, name: "Keller unter Wasser", einheiten: ["Hilfeleistungslöschfahrzeug", "Pumpenwagen"] }
+    ];
+    
+    const einsatzContainer = document.getElementById("einsatzContainer");
+    const log = document.getElementById("log");
+
+    function logMessage(msg) {
+      const entry = document.createElement("div");
+      entry.textContent = msg;
+      log.appendChild(entry);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function renderEinsaetze() {
+      einsatzContainer.innerHTML = "";
+      einsaetze.forEach(e => {
+        const div = document.createElement("div");
+        div.className = "einsatz";
+        div.innerHTML = `
+          <h3>${e.name}</h3>
+          <p>Benötigte Einheiten: ${e.einheiten.join(", ")}</p>
+          <button onclick="bearbeiteEinsatz(${e.id})">Einsatz übernehmen</button>
+        `;
+        einsatzContainer.appendChild(div);
+      });
+    }
+
+    function bearbeiteEinsatz(id) {
+      const einsatz = einsaetze.find(e => e.id === id);
+      logMessage(`✅ Einsatz "${einsatz.name}" erfolgreich koordiniert!`);
+    }
+
+    renderEinsaetze();
+  </script>
+</body>
+</html>
